@@ -26,7 +26,7 @@
         {% set is_admin = is_auth and current_user.is_admin %}
         <ul class="nav-list">
             {% for item in nav if (not item.members_only or is_auth) and (not item.admin_only or is_admin)
-                    and (not (is_auth and item.not_logged_in_only)) %}
+                    and (not (is_auth and item.logged_out_only)) %}
                 {% set ns = namespace(kids=[]) %}
                 {% for c in item.children or [] if (not c.members_only or is_auth) and (not c.admin_only or is_admin) %}
                     {% set ns.kids = ns.kids + [c] %}
@@ -40,8 +40,9 @@
                             {%- if kids %} aria-haspopup="true"{% endif %}>{{ item.label }}</a>
                     {% if kids %}
                         <ul class="submenu">
-                            {% for child in kids %}
-                                <li><a href="{{ url_for(child.endpoint) }}"{% if page == child.endpoint %} aria-current="page"{% endif %}>&nbsp;&nbsp;{{ child.label }}</a></li>
+                            {% for kid in kids if (not kid.members_only or is_auth) and (not kid.admin_only or is_admin)
+                                    and (not (is_auth and kid.logged_out_only))  %}
+                                <li><a href="{{ url_for(kid.endpoint) }}"{% if page == kid.endpoint %} aria-current="page"{% endif %}>&nbsp;&nbsp;{{ kid.label }}</a></li>
                             {% endfor %}
                         </ul>
                     {% endif %}
