@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="wrap">
+  <h1>About Us</h1>
+  <div class="two-col">
+    <div>
+      <h2>The Historical Old Millstone Forge</h2>
+      <p>Old Millstone Forge Association, Inc. was established to support the maintenance and preservation of the Blacksmith Shop and Museum in the Borough of Millstone, Somerset County, NJ.</p>
+      <p>Our purpose is the proper preservation of both the building and the collection within, as well as the proper use of the equipment to better explain the role of the blacksmith within our culture and history.</p>
+      <p>The Old Millstone Forge Museum is one of the <strong>oldest</strong> living history groups in the area, and takes pride in the products and the experiences they provide.</p>
+      <h2>Our activities include:</h2>
+      <ul class="plain-list">
+        {% for a in activities %}<li>{{ a }}</li>{% endfor %}
+      </ul>
+    </div>
+    <div class="stack">
+      <img src="{{ img('New/ForgeFlyer.jpg') }}" alt="Old Millstone Forge flyer">
+      <img src="{{ img('photograph.jpg') }}" alt="Historic photograph of the forge">
+    </div>
+  </div>
+</section>
+{% endblock %}

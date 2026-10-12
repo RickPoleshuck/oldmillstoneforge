@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="wrap narrow">
+  <h1>Donate to Old Millstone Forge</h1>
+  <h2>Help Preserve a Living Legacy</h2>
+  <p>Nestled in the heart of our community stands a timeless treasure: the Old Millstone Forge. For generations, its anvil rang with the rhythm of craftsmanship, shaping tools, horseshoes, and history. Today, the Forge remains one of the last working blacksmith shops of its kind — a living museum where sparks still fly and stories come to life.</p>
+  <p>But preserving history isn't easy.</p>
+  <p>The Old Millstone Forge relies on generous supporters like you to keep the bellows blowing and the fires lit. Your donation will help us:</p>
+  <ul class="plain-list">{% for u in uses %}<li>{{ u }}</li>{% endfor %}</ul>
+  <p>Whether you’re passionate about local history, traditional craftsmanship, or simply believe in keeping the past alive — your support makes a difference.</p>
+  <p><strong>Please consider making a donation today.</strong></p>
+  <p><a class="btn btn-primary" href="https://www.zeffy.com/en-US/donation-form/donate-to-old-millstone-forge">Donate</a></p>
+</section>
+{% endblock %}

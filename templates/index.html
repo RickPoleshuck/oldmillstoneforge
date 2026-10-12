@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% block head %}
+    <style>
+        html {
+            background-image: url("{{ url_for('static', filename='images/oldmillstoneforge.jpg') }}");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            min-height: 100vh;
+            scroll-padding-top: 4rem;
+        }
+        body {
+          background: transparent;
+        }
+    </style>
+{% endblock %}
+{% block content %}
+    <section class="hero">
+        <div class="hero-inner">
+            <h1>The Old Millstone Forge</h1>
+            <p>{{ site.tagline }}</p>
+            <a class="button" href="#forge">
+                <img alt="Continue" height="50px" width="50px" src="{{ url_for('static', filename='images/down-arrow.png') }}"/>
+            </a>
+        </div>
+    </section>
+
+    <section id="forge" class="wrap two-col forge">
+        <div>
+            <h2>Old Millstone Forge</h2>
+            <p>The Old Millstone Forge is home to what was the longest operating blacksmith shop in America. It served the area as an active
+                blacksmith’s shop until the death of its last blacksmith Edward H. Wyckoff, in 1959, who served a remarkable 64 years. The building
+                was restored by area residents in the 1960s and is currently operating as a blacksmith shop and living history museum by the Millstone
+                Forge Association.</p>
+        </div>
+        <figure>
+            <img src="{{ img('MillstoneForgeBlacksmith.jpg') }}" alt="A blacksmith at work in the Old Millstone Forge">
+        </figure>
+    </section>
+{% endblock %}

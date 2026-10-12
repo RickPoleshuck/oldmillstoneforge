@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}Admin Slots{% endblock %}
+{% block content %}
+<h2 class="mb-4">Admin Slots</h2>
+
+<div class="row g-4">
+  <!-- Slots -->
+  <div class="col-lg-7">
+    <div class="card">
+      <div class="card-header">Meeting slots</div>
+      <div class="card-body">
+        <form method="post" action="{{ url_for('add_slot') }}" class="row g-2 mb-3">
+            <span>
+          <div class="col-md-3">
+            <label class="form-label small mb-0">Date</label>
+            <input type="date" name="date" class="form-control form-control-sm" required>
+          </div>
+          <div class="col-md-3">
+            <label class="form-label small mb-0">Time</label>
+            <input type="time" name="time" class="form-control form-control-sm" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small mb-0">Duration (min)</label>
+            <input type="number" name="duration" value="180" min="5" class="form-control form-control-sm" required>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small mb-0">Capacity</label>
+            <input type="number" name="capacity" value="5" min="1" class="form-control form-control-sm" required>
+          </div>
+            </span>
+            <span>
+            <div class="col-md-2">
+                <label class="form-label small mb-0">Repeat</label>
+                <select name="repeat" class="form-control form-control-sm">
+                    <option value="" selected></option>
+                    <option value="weekly">weekly</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+            <label class="form-label small mb-0">End Date</label>
+            <input type="date" name="end_date" class="form-control form-control-sm">
+             </div>
+                </span>
+          <div class="col-md-2 d-flex align-items-end">
+            <button class="btn btn-primary btn-sm w-100">Create</button>
+          </div>
+        </form>
+
+        <table class="table table-sm align-middle">
+          <thead>
+            <tr><th>When</th><th>Capacity</th><th></th></tr>
+          </thead>
+          <tbody>
+            {% for slot in slots %}
+            <tr class="{% if slot.start_time < now %}text-muted{% endif %}">
+              <td>{{ slot.start_time.strftime('%b %d, %Y %I:%M %p') }} ({{ slot.duration_minutes }}m)</td>
+              <td>
+                <a href="{{ url_for('slot_detail', slot_id=slot.id) }}">
+                  {{ slot.booked_count }} / {{ slot.capacity }}
+                </a>
+              </td>
+              <td>
+                <form method="post" action="{{ url_for('delete_slot', slot_id=slot.id) }}"
+                      onsubmit="return confirm('Delete this slot and all its bookings?');">
+                  <button class="btn btn-outline-danger btn-sm">Delete</button>
+                </form>
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="4" class="text-muted">No slots created yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

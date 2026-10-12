@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Admin Users{% endblock %}
+{% block content %}
+<h2 class="mb-4">Admin Users</h2>
+
+<div class="row g-4">
+  <!-- Authorized users -->
+  <div class="col-lg-5">
+    <div class="card">
+      <div class="card-header">Users</div>
+      <div class="card-body">
+        <form method="post" action="{{ url_for('add_user') }}" class="row g-2 mb-3">
+          <div class="col-12">
+            <input type="userid" name="userid" class="form-control form-control-sm" placeholder="userid" required>
+          </div>
+          <div class="col-4">
+            <button class="btn btn-primary btn-sm w-100">Add</button>
+          </div>
+        </form>
+
+        <table class="table table-sm align-middle">
+          <thead>
+          <tr><th>User</th><th>Status</th><th>Role</th><th></th></tr>
+          </thead>
+          <tbody>
+            {% for user in users %}
+            <tr>
+              <td>
+                {{ user.userid }}
+                {% if user.name %}<div class="text-muted small">{{ user.name }}</div>{% endif %}
+              </td>
+              <td>
+                {% if user.is_deleted %}
+                  <span class="badge bg-warning text-dark">Deleted</span>
+                {% elif user.is_active %}
+                  <span class="badge bg-success">Active</span>
+                {% else %}
+                  <span class="badge bg-warning text-dark">Pending</span>
+                {% endif %}
+              </td>
+                <td>
+                    {% if user.userid == 'admin' %}
+                    Admin
+                    {% else %}
+                    <form method="post" action="{{ url_for('toggle_admin', user_id=user.id) }}">
+                        <button class="btn btn-outline-danger btn-sm">
+                            {% if user.is_admin %}
+                            Admin
+                            {% else %}
+                            User
+                            {% endif %}
+                        </button>
+                    </form>
+                    {% endif %}
+                </td>
+              <td>
+                  {% if not user.is_deleted %}
+                <form method="post" action="{{ url_for('remove_user', user_id=user.id) }}">
+                  <button class="btn btn-outline-danger btn-sm">Remove</button>
+                </form>
+                  {% endif %}
+              </td>
+            </tr>
+            {% else %}
+            <tr><td colspan="3" class="text-muted">No users yet.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

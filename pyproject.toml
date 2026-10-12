@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "forgescheduler"
+version = "1.0.0"
+authors = [
+    { name = "Rick Poleshuck", email = "rick@oldmillstoneforge.org" },
+    { name = "Hardwick Stires", email = "hs1339@scarletmail.rutgers.edu" }
+]
+description = "Scheduler for the forge"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "flask",
+    "flask-sqlalchemy",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pylint.MAIN]
+init-hook = "import sys; sys.path.append('.')"
+
+[tool.pylint.'MESSAGES CONTROL']
+disable = [
+    "missing-docstring",
+    "too-few-public-methods",
+    "too-many-locals",
+]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pylint.design]
+max-statements = 200
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+    "integration: tests that exercise the app with a real database/test client",
+]

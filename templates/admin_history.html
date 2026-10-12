@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}History{% endblock %}
+{% block content %}
+<h2 class="mb-4">History</h2>
+
+{% if not slots %}
+  <p class="text-muted">No slots have been posted yet. Check back soon.</p>
+{% else %}
+<table class="history">
+    <thead>
+    <tr class="history">
+        <!-- Headers generate links back to the route with updated query parameters -->
+        <th class="history">
+            <a href="?sort=id&direction={{ next_direction if current_sort == 'id' else 'asc' }}">
+                ID {% if current_sort == 'id' %}{{ '▲' if current_direction == 'asc' else '▼' }}{% endif %}
+            </a>
+        </th>
+        <th class="history">
+            <a href="?sort=name&direction={{ next_direction if current_sort == 'date' else 'asc' }}">
+                Date {% if current_sort == 'date' %}{{ '▲' if current_direction == 'asc' else '▼' }}{% endif %}
+            </a>
+        </th>
+        <th class="history">
+            Duration
+        </th>
+        <th class="history">
+            Sign Ups
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for slot in slots %}
+    <tr class="history">
+        <td class="history">{{ slot.id }}</td>
+        <td class="history">{{ slot.start_time.strftime('%b %d, %Y %I:%M %p') }}</td>
+        <td class="history">{{ slot.duration() }}</td>
+        <td class="history">{{ slot.signups | map(attribute='user') | map(attribute='name') | join(', ') }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+
+{% endif %}
+{% endblock %}

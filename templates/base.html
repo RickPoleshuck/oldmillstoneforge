@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" class="{% block html_class %}{% endblock %}">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ site.name }}{% if title %} - {{ title }}{% endif %}</title>
+    <meta name="description" content="{{ site.tagline }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bitter:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    {% block head %}{% endblock %}
+</head>
+<body class="page-{{ page or 'other' }}">
+<header class="masthead">
+    <a class="brand" href="{{ url_for('index') }}">
+        <img src="{{ img('logo.png') }}" alt="" width="44" height="44">
+        <span>{{ site.name }}</span>
+    </a>
+    <input type="checkbox" id="menu-toggle" class="menu-toggle" aria-label="Toggle menu">
+    <label for="menu-toggle" class="menu-button">&#x2630; Menu</label>
+    <nav aria-label="Main">
+        {% set is_auth = current_user.is_authenticated %}
+        {% set is_admin = is_auth and current_user.is_admin %}
+        <ul class="nav-list">
+            {% for item in nav if (not item.members_only or is_auth) and (not item.admin_only or is_admin)
+                    and (not (is_auth and item.not_logged_in_only)) %}
+                {% set ns = namespace(kids=[]) %}
+                {% for c in item.children or [] if (not c.members_only or is_auth) and (not c.admin_only or is_admin) %}
+                    {% set ns.kids = ns.kids + [c] %}
+                {% endfor %}
+                {% set kids = ns.kids %}
+                {% set kid_pages = kids | map(attribute='endpoint') | list %}
+                <li{% if kids %} class="has-sub"{% endif %}>
+                    <a href="{{ url_for(item.endpoint) }}"
+                            {%- if page == item.endpoint %} aria-current="page"
+                            {%- elif page in kid_pages %} class="is-ancestor"{% endif %}
+                            {%- if kids %} aria-haspopup="true"{% endif %}>{{ item.label }}</a>
+                    {% if kids %}
+                        <ul class="submenu">
+                            {% for child in kids %}
+                                <li><a href="{{ url_for(child.endpoint) }}"{% if page == child.endpoint %} aria-current="page"{% endif %}>&nbsp;&nbsp;{{ child.label }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+</header>
+
+<main>{% block content %}{% endblock %}</main>
+{% include 'footer.html' %}
+</body>
+</html>

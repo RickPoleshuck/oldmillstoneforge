@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+{% block title %}Bookings{% endblock %}
+{% block content %}
+    <h2 class="mb-4">Available meeting times</h2>
+
+    {% if not slots %}
+        <p class="text-muted">No upcoming slots have been posted yet. Check back soon.</p>
+    {% else %}
+        <div class="row row-cols-1 row-cols-md-2 g-3">
+            {% for slot in slots %}
+                <div class="col">
+                    <div class="card h-100 {% if slot.id in my_signups %}border-success{% endif %}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ slot.start_time.strftime('%A, %B %d, %Y') }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">
+                                {{ slot.start_time.strftime('%I:%M %p') }} · {{ slot.duration() }}
+                            </h6>
+                            {% if slot.label %}<p class="card-text">{{ slot.label }}</p>{% endif %}
+                            <p class="card-text">
+          <span class="badge {% if slot.is_full %}bg-secondary{% else %}bg-success{% endif %}">
+            {{ slot.spots_left }} of {{ slot.capacity }} spot(s) left
+          </span>
+                                {% if slot.id in my_signups %}
+                                    <span class="badge bg-success mb-2">You're booked</span>
+                                    <form method="post" action="{{ url_for('cancel_slot', slot_id=slot.id) }}">
+                                        <button class="btn btn-outline-danger btn-sm">Cancel booking</button>
+                                    </form>
+                                {% elif slot.is_full %}
+                                    <button class="btn btn-secondary btn-sm" disabled>Full</button>
+                                {% else %}
+                                    <form method="post" action="{{ url_for('book_slot', slot_id=slot.id) }}">
+                                        <button class="btn btn-primary btn-sm">Book this slot</button>
+                                    </form>
+                                {% endif %}
+                            </p>
+                            {% if slot.booked_count > 0 %}
+                                <h6>Current bookings</h6>
+                                <table class="slots">
+                                    <tbody>
+                                    {% for signup in slot.signups %}
+                                        <tr>
+                                            <td>{{ loop.index0 + 1 }}</td>
+                                            <td>{{ signup.user.name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% else %}
+                                No one has yet booked this slot.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endblock %}
