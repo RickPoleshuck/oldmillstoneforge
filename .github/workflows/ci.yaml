@@ -34,7 +34,7 @@ jobs:
       if: github.ref == 'refs/heads/main'
       uses: burnett01/rsync-deployments@v9
       with:
-        switches: -avzr --delete --exclude \*.db --exclude .venv --exclude __pycache__
+        switches: -avzr --delete --exclude \*.db --exclude .venv --exclude __pycache__ --exclude .git --exclude .gitignore --exclude .idea
         path: .
         remote_path: oldmillstoneforge/web
         remote_host: oldmillstoneforge.mooo.com
