@@ -9,4 +9,3 @@ class Picture(db.Model):
     mimetype = db.Column(db.String, nullable=False)
     data = db.Column(db.LargeBinary, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.now, nullable=False)
-

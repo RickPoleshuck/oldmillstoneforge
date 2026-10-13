@@ -6,26 +6,29 @@ from flask import (
 )
 from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import text
+from werkzeug.utils import secure_filename
 
-from extensions import db
-from models import User, Slot, Signup
 from auth import admin_required  # also registers the user_loader callback
 from content import (
-    ACTIVITIES, DONATION_USES, EVENTS, GALLERY, HOURS, SITE, NAV,
+    ACTIVITIES, DONATION_USES, SITE, NAV,
 )
+from extensions import db
+from models import User, Slot, Signup
 from models.chronicle import Chronicle
 from models.picture import Picture
-from werkzeug.utils import secure_filename
 
 ALLOWED_IMAGE_TYPES = {"image/png", "image/jpeg", "image/gif"}
 
+
 def img(path: str) -> str:
     return url_for("static", filename="images/" + path)
+
 
 def register_routes(app):
     @app.context_processor
     def inject_globals():
         return {"site": SITE, "nav": NAV, "img": img}
+
     # -----------------------------------------------------------------------
     # Public / auth routes
     # -----------------------------------------------------------------------
@@ -33,7 +36,6 @@ def register_routes(app):
     @app.route("/")
     def index():
         return render_template("index.html", page="index", title=None)
-
 
     @app.route("/health", methods=["GET"])
     def readiness_check():
@@ -197,7 +199,6 @@ def register_routes(app):
         flash("Admin toggled.", "info")
         return redirect(url_for("admin_users"))
 
-
     @app.route("/admin/slots/add", methods=["POST"])
     @login_required
     @admin_required
@@ -257,7 +258,7 @@ def register_routes(app):
         slot = Slot.query.get_or_404(slot_id)
         return render_template("slot_detail.html", slot=slot)
 
-    def make_slot(start_time: datetime, duration: int, capacity:int, label: str):
+    def make_slot(start_time: datetime, duration: int, capacity: int, label: str):
         if duration < 1:
             raise ValueError("duration must be at least 1")
         if capacity < 1:
@@ -273,28 +274,23 @@ def register_routes(app):
     def about():
         return render_template("about.html", page="about", title="About Us", activities=ACTIVITIES)
 
-
     @app.route("/gallery")
     def gallery():
-        pictures = Picture.query.order_by(Picture.id.desc()).all();
+        pictures = Picture.query.order_by(Picture.id.desc()).all()
         return render_template("gallery.html", page="gallery", title="Gallery", pictures=pictures)
-
 
     @app.route("/donate")
     def donate():
         return render_template("donate.html", page="donate", title="Donate", uses=DONATION_USES)
 
-
     @app.route("/calendar")
     def calendar():
         return render_template("calendar.html", page="calendar", title="Calendar")
-
 
     @app.route("/chronicles")
     def chronicles():
         items = Chronicle.query.order_by(Chronicle.date.desc()).limit(20)
         return render_template("chronicles.html", page="chronicles", title="Chronicles", items=items)
-
 
     @app.errorhandler(404)
     def not_found(_):
@@ -304,7 +300,8 @@ def register_routes(app):
     def download_pdf(doc_id):
         chronicle = Chronicle.query.filter_by(id=doc_id).first()
         if not chronicle:
-            return not_found()
+            flash('Unexpected error.', 'danger')
+            return redirect(url_for('chronicles'))
         return send_file(
             BytesIO(chronicle.data),
             mimetype='application/pdf',
@@ -354,7 +351,6 @@ def register_routes(app):
         response.headers['Cache-Control'] = f'public, max-age={max_age}'
         return response
 
-
     @app.route('/admin_pictures')
     @login_required
     @admin_required
@@ -365,7 +361,6 @@ def register_routes(app):
             .order_by(Picture.id.asc())
         ).all()
         return render_template("admin_pictures.html", pictures=pictures)
-
 
     @app.route('/admin_pictures/add', methods=['POST'])
     @login_required

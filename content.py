@@ -55,11 +55,11 @@ DONATION_USES = [
     "Keep this rare piece of our heritage accessible for future generations",
 ]
 
-GALLERY = [
-    "New/ForgePostCleanup.jpg", "New/ForgePostCleanup2.jpg", "New/ForgePostCleanup4.jpg",
-    "MillstoneForgeBlacksmith.jpg", "New/ForgeNew.JPG", "forgefull3.jpg",
-    "forging.jpg", "forging3.jpg", "forging4.jpg",
-    "bs1.jpg", "bs2.jpg", "bs3.jpg", "bs4.jpg", "bs5.jpg", "forge.jpg",
-    "Historical/0309061349.jpg", "Historical/0425061018a.jpg", "Historical/0425061019.jpg",
-    "Historical/0425061021a.jpg", "Historical/0425061022b.jpg",
-]
+# GALLERY = [
+#     "New/ForgePostCleanup.jpg", "New/ForgePostCleanup2.jpg", "New/ForgePostCleanup4.jpg",
+#     "MillstoneForgeBlacksmith.jpg", "New/ForgeNew.JPG", "forgefull3.jpg",
+#     "forging.jpg", "forging3.jpg", "forging4.jpg",
+#     "bs1.jpg", "bs2.jpg", "bs3.jpg", "bs4.jpg", "bs5.jpg", "forge.jpg",
+#     "Historical/0309061349.jpg", "Historical/0425061018a.jpg", "Historical/0425061019.jpg",
+#     "Historical/0425061021a.jpg", "Historical/0425061022b.jpg",
+# ]
