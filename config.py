@@ -9,6 +9,7 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     APP_NAME = "Old Millstone Forge"
     LOG_LEVEL = os.environ.get("LOG_LEVEL", "INFO")  # prod default
+    MAX_CONTENT_LENGTH = 1024 * 1024 * 1024  # Limits payload/upload size to 1G
 
 
 class TestConfig(Config):

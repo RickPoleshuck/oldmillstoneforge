@@ -11,11 +11,11 @@
   </component>
   <component name="DBNavigator.Project.DatabaseAssistantManager">
     <assistants>
-      <assistant-state connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
+      <assistant-state connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
         <tools />
         <mcp-servers />
       </assistant-state>
-      <assistant-state connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" assistant-type="PUBLIC" default-profile-name="" selected-chat-id="" availability="AVAILABLE" acknowledgement="NONE" selected="true">
+      <assistant-state connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" assistant-type="SELECT_AI" default-profile-name="" selected-chat-id="" availability="UNAVAILABLE" acknowledgement="NONE">
         <tools />
         <mcp-servers />
       </assistant-state>
@@ -32,16 +32,16 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6">
-      <console name="oldmillstoneforge" type="STANDARD" schema="main" session="Main"><![CDATA[update user set password_hash = 'scrypt:32768:8:1$tjEfmzY4f0IPDWmE$e126e97afaec562a95e0709f3b18a909ebf5918d23bf61fcbdbb8cd25eb5c6255b02a932e57ed1527b0a1fc9ec1494bd7c8605b0c4eff0f488580896697857b8'
-where userid = 'rick';
-select password_hash from user where userid = 'rick2';]]></console>
+      <console name="oldmillstoneforge" type="STANDARD" schema="main" session="Main"><![CDATA[delete from picture;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files />
+    <open-files>
+      <object connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" object-ref="consoles/oldmillstoneforge" />
+    </open-files>
   </component>
   <component name="DBNavigator.Project.DatabasePrerequisiteManager">
     <prerequisites />
@@ -50,6 +50,7 @@ select password_hash from user where userid = 'rick2';]]></console>
     <connection id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" />
   </component>
   <component name="DBNavigator.Project.DatasetFilterManager">
+    <filter-actions connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" dataset="main.picture" active-filter-id="EMPTY_FILTER" />
     <filter-actions connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" dataset="main.user" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.ExecutionManager">

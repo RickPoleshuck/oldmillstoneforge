@@ -2,7 +2,7 @@ from datetime import datetime, timedelta
 from io import BytesIO
 
 from flask import (
-    current_app, render_template, redirect, url_for, request, flash, jsonify, send_file
+    current_app, render_template, redirect, url_for, request, flash, jsonify, send_file, make_response
 )
 from flask_login import login_user, logout_user, login_required, current_user
 from sqlalchemy import text
@@ -14,7 +14,10 @@ from content import (
     ACTIVITIES, DONATION_USES, EVENTS, GALLERY, HOURS, SITE, NAV,
 )
 from models.chronicle import Chronicle
+from models.picture import Picture
+from werkzeug.utils import secure_filename
 
+ALLOWED_IMAGE_TYPES = {"image/png", "image/jpeg", "image/gif"}
 
 def img(path: str) -> str:
     return url_for("static", filename="images/" + path)
@@ -323,6 +326,8 @@ def register_routes(app):
         return render_template('bookings.html', slots=upcoming_slots, my_signups=my_signups, now=now)
 
     @app.route('/admin_slots')
+    @login_required
+    @admin_required
     def admin_slots():
         now = datetime.now()
         slots = Slot.query.order_by(Slot.start_time.asc()).all()
@@ -334,10 +339,66 @@ def register_routes(app):
         users = User.query.order_by(User.userid.asc()).all()
         return render_template("admin_users.html", users=users, now=now)
 
+    @app.route('/picture/<int:picture_id>')
+    def picture(picture_id):
+        img_record = db.get_or_404(Picture, picture_id)
+        image_stream = BytesIO(img_record.data)
+
+        response = make_response(send_file(
+            image_stream,
+            mimetype=img_record.mimetype  # e.g., 'image/jpeg' or 'image/png'
+        ))
+
+        max_age = 86400 * 31
+        response.headers['Cache-Control'] = f'public, max-age={max_age}'
+        return response
+
+
     @app.route('/admin_pictures')
+    @login_required
+    @admin_required
     def admin_pictures():
-        pass
+        pictures = db.session.scalars(
+            db.select(Picture)
+            .options(db.defer(Picture.data))
+            .order_by(Picture.id.asc())
+        ).all()
+        return render_template("admin_pictures.html", pictures=pictures)
+
+
+    @app.route('/admin_pictures/add', methods=['POST'])
+    @login_required
+    @admin_required
+    def add_picture():
+        image = request.files.get('image')
+
+        if image is None or image.filename == '':
+            flash('No file selected.', 'danger')
+        elif image.mimetype not in ALLOWED_IMAGE_TYPES:
+            flash('Only PNG, JPEG, and GIF images are allowed.', 'danger')
+        else:
+            db.session.add(Picture(
+                filename=secure_filename(image.filename),
+                mimetype=image.mimetype,
+                data=image.read(),
+            ))
+            db.session.commit()
+            flash('New picture saved.', 'success')
+
+        return redirect(url_for('admin_pictures'))
+
+    @app.route('/admin_pictures/<int:picture_id>/delete', methods=['POST'])
+    @login_required
+    @admin_required
+    def delete_picture(picture_id):
+        picture = db.get_or_404(Picture, picture_id)
+        db.session.delete(picture)
+        db.session.commit()
+        flash('Picture deleted.', 'info')
+        return redirect(url_for('admin_pictures'))
 
     @app.route('/admin_chronicles')
+    @login_required
+    @admin_required
     def admin_chronicles():
         pass
