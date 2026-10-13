@@ -3,9 +3,12 @@
 <section class="wrap wide">
   <h1>Gallery</h1>
   <div class="gallery">
-    {% for p in photos %}
-    <a href="{{ img(p) }}" target="_blank" rel="noopener">
-      <img src="{{ img(p) }}" alt="Old Millstone Forge photo {{ loop.index }}" loading="lazy">
+    {% for p in pictures %}
+    <a href="{{ url_for('picture', picture_id=p.id) }}" target="_blank" rel="noopener">
+        <img
+             src="{{ url_for('picture', picture_id=p.id) }}"
+             alt="{{ p.filename }}"
+             loading="lazy">
     </a>
     {% endfor %}
   </div>

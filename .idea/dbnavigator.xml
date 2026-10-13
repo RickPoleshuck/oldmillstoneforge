@@ -39,9 +39,7 @@
     <last-used-providers />
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="4789c4a8-9ef9-4292-96ca-3a22f2b9f0f6" object-ref="consoles/oldmillstoneforge" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabasePrerequisiteManager">
     <prerequisites />

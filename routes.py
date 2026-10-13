@@ -276,7 +276,8 @@ def register_routes(app):
 
     @app.route("/gallery")
     def gallery():
-        return render_template("gallery.html", page="gallery", title="Gallery", photos=GALLERY)
+        pictures = Picture.query.order_by(Picture.id.desc()).all();
+        return render_template("gallery.html", page="gallery", title="Gallery", pictures=pictures)
 
 
     @app.route("/donate")
