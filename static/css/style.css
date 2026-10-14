@@ -412,3 +412,36 @@ nav .nav-list .submenu a[aria-current="page"] {
 	color: var(--coal);               /* same active state as main menu */
 	background: var(--glow);
 }
+
+/* Container for the flash message */
+.flash-message {
+	padding: 15px;
+	margin-bottom: 20px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background-color: #d9edf7;
+	color: #31708f;
+
+	/* Animation settings:
+		 Kicks in after 4 seconds, runs for 1 second, keeps the final state */
+	animation: fadeOut 1s ease-in 4s forwards;
+}
+
+@keyframes fadeOut {
+	0% {
+		opacity: 1;
+		visibility: visible;
+	}
+	99% {
+		pointer-events: none;
+	}
+	100% {
+		opacity: 0;
+		visibility: hidden;
+		height: 0;
+		padding: 0;
+		margin: 0;
+		border: 0;
+	}
+}
+
