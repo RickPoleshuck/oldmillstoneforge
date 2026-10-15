@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2 class="mb-4">Admin Chronicles</h2>
+    <form action="{{ url_for('add_chronicle') }}" method="post" enctype="multipart/form-data">
+        <input type="file" name="chronicle" accept="application/pdf" required>
+        <button type="submit">Add Chronicle</button>
+    </form>
+    <table class="chronicles">
+        <tr>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Download</th>
+        </tr>
+        {% for item in items %}
+            <tr>
+                <td>{{ item.date}}</td>
+                <td>{{ item.filename}}</td>
+                <td>
+                    <a href="{{ url_for('download_pdf', doc_id=item.id) }}">
+                        <img src="{{ img('newsletter.png') }}" alt="" width="48" height="48">
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+    </section>
+{% endblock %}

@@ -13,11 +13,10 @@ from content import (
     ACTIVITIES, DONATION_USES, SITE, NAV,
 )
 from extensions import db
-from models import User, Slot, Signup
-from models.chronicle import Chronicle
-from models.picture import Picture
+from models import User, Slot, Signup, Chronicle, Picture
 
 ALLOWED_IMAGE_TYPES = {"image/png", "image/jpeg", "image/gif"}
+ALLOWED_CHRONICLE_TYPES = {'application/pdf'}
 
 
 def img(path: str) -> str:
@@ -303,7 +302,7 @@ def register_routes(app):
             flash('Unexpected error.', 'danger')
             return redirect(url_for('chronicles'))
         return send_file(
-            BytesIO(chronicle.data),
+            BytesIO(chronicle.pdf),
             mimetype='application/pdf',
             as_attachment=True,
             download_name=chronicle.filename
@@ -397,4 +396,26 @@ def register_routes(app):
     @login_required
     @admin_required
     def admin_chronicles():
-        pass
+        items = Chronicle.query.order_by(Chronicle.date.desc())
+        return render_template("admin_chronicles.html", page="admin_chronicles", title="Chronicles", items=items)
+
+    @app.route('/admin_chronicles/add', methods=['POST'])
+    @login_required
+    @admin_required
+    def add_chronicle():
+        chronicle = request.files.get('chronicle')
+
+        if chronicle is None or chronicle.filename == '':
+            flash('No file selected.', 'danger')
+        elif chronicle.content_type not in ALLOWED_CHRONICLE_TYPES:
+            flash('Only PDF chronicles are allowed.', 'danger')
+        else:
+            db.session.add(Chronicle(
+                filename=secure_filename(chronicle.filename),
+                date=datetime.now(),
+                pdf=chronicle.read(),
+            ))
+            db.session.commit()
+            flash('New chronicle saved.', 'success')
+
+        return redirect(url_for('admin_chronicles'))
