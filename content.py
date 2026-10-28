@@ -30,7 +30,6 @@ NAV = [
         {'endpoint': 'signups', 'label': 'Signups', 'members_only': True},
         {'endpoint': 'admin_slots', 'label': 'Admin Slots', 'admin_only': True},
         {'endpoint': 'admin_users', 'label': 'Admin Users', 'admin_only': True},
-        {'endpoint': 'admin_chronicles', 'label': 'Admin Chronicles', 'admin_only': True},
         {'endpoint': 'admin_pictures', 'label': 'Admin Pictures', 'admin_only': True},
         {'endpoint': 'admin_history', 'label': 'Admin History', 'admin_only': True},
     ]},

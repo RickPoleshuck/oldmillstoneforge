@@ -392,12 +392,16 @@ def register_routes(app):
         flash('Picture deleted.', 'info')
         return redirect(url_for('admin_pictures'))
 
-    @app.route('/admin_chronicles')
+    @app.route('/chronicles/<int:item_id>/delete', methods=['POST'])
+    # html form doesn't allow delete method
     @login_required
     @admin_required
-    def admin_chronicles():
-        items = Chronicle.query.order_by(Chronicle.date.desc())
-        return render_template("admin_chronicles.html", page="admin_chronicles", title="Chronicles", items=items)
+    def delete_chronicle(item_id):
+        chronicle = db.get_or_404(Chronicle, item_id)
+        db.session.delete(chronicle)
+        db.session.commit()
+        flash('Chronicle deleted.', 'info')
+        return redirect(url_for('chronicles'))
 
     @app.route('/admin_chronicles/add', methods=['POST'])
     @login_required

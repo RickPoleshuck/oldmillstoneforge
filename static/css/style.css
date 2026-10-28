@@ -131,7 +131,6 @@ a:focus-visible, .button:focus-visible {
 .wrap {
 	max-width: 62rem;
 	margin: 0 auto;
-	padding: 3.5rem 1.5rem
 }
 
 .wrap.narrow {
