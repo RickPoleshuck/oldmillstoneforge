@@ -22,7 +22,7 @@
             {% for item in items %}
                 <tr>
                     <td>{{ item.id }}</td>
-                    <td>{{ item.date.strftime("%B %d, %Y") }}</td>
+                    <td>{{ item.date.strftime("%B %Y") }}</td>
                     <td>
                         <button onclick="window.open('{{ url_for('download_pdf', doc_id=item.id) }}', '_blank')">
                             <img src="{{ img('chronicles.png') }}" alt="" width="30" height="30">
