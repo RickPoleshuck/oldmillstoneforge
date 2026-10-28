@@ -4,6 +4,7 @@
         <h1>Old Millstone Forge Chronicles</h1>
         <table class="chronicles zebra">
             <tr>
+                <th>ID</th>
                 <th>Date</th>
                 <th>Download</th>
                 {% if is_admin %}
@@ -12,6 +13,7 @@
             </tr>
             {% for item in items %}
                 <tr>
+                    <td>{{ item.id }}</td>
                     <td>{{ item.date.strftime("%B %d, %Y") }}</td>
                     <td>
                         <button onclick="window.open('{{ url_for('download_pdf', doc_id=item.id) }}', '_blank')">
@@ -21,7 +23,7 @@
                     {% if is_admin %}
                         <td>
                             <form action="{{ url_for('delete_chronicle', item_id=item.id) }}" method="POST"
-                                  onsubmit="return confirm('Are you sure you want to delete this item?');">
+                                  onsubmit="return confirm('Are you sure you want to delete item {{ item.id }}?');">
                                 <button type="submit" class="btn btn-danger">
                                     <i class="fa-solid fa-trash" aria-hidden="true"></i>
                                 </button>
