@@ -258,6 +258,10 @@ img {
 	background: var(--ash)
 }
 
+.chronicles td, th {
+	padding: 1rem;
+}
+
 .site-footer {
 	background: var(--coal);
 	color: var(--ash);
@@ -445,3 +449,6 @@ nav .nav-list .submenu a[aria-current="page"] {
 	}
 }
 
+.zebra tr:nth-child(even) {
+	background-color: #f2f2f2;
+}

@@ -304,7 +304,7 @@ def register_routes(app):
         return send_file(
             BytesIO(chronicle.pdf),
             mimetype='application/pdf',
-            as_attachment=True,
+            as_attachment=False,
             download_name=chronicle.filename
         )
 

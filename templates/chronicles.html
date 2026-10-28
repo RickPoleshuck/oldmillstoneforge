@@ -2,18 +2,17 @@
 {% block content %}
 <section class="wrap narrow">
   <h1>Old Millstone Forge Chronicles</h1>
-    <table class="chronicles">
+    <table class="chronicles zebra">
         <tr>
-            <th>Date</th><th>Name</th><th>Download</th>
+            <th>Date</th><th>Download</th>
         </tr>
         {% for item in items %}
             <tr>
-                <td>{{ item.date}}</td>
-                <td>{{ item.filename}}</td>
+                <td>{{ item.date.strftime("%B %d, %Y") }}</td>
                 <td>
-                    <a href="{{ url_for('download_pdf', doc_id=item.id) }}">
-                        <img src="{{ img('newsletter.png') }}" alt="" width="48" height="48">
-                    </a>
+                    <button onclick="window.open('{{ url_for('download_pdf', doc_id=item.id) }}', '_blank')">
+                        <img src="{{ img('chronicles.png') }}" alt="" width="30" height="30">
+                    </button>
                 </td>
             </tr>
          {% endfor %}
