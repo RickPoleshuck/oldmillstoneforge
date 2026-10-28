@@ -1,7 +1,7 @@
 SITE = {
     "name": "The Old Millstone Forge",
     "tagline": "Preserving the Blacksmith Shop and Museum in Millstone, NJ.",
-    "address": ["9 North River Street", "Hillsborough Township", "New Jersey 08844"],
+    "address": ["9 North River Street", "Millstone", "New Jersey 08844"],
     "email": "info@oldmillstoneforge.org",
     "map_embed": (
         "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12134.829960467096"
