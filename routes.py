@@ -403,11 +403,12 @@ def register_routes(app):
         flash('Chronicle deleted.', 'info')
         return redirect(url_for('chronicles'))
 
-    @app.route('/admin_chronicles/add', methods=['POST'])
+    @app.route('/chronicles/add', methods=['POST'])
     @login_required
     @admin_required
     def add_chronicle():
-        chronicle = request.files.get('chronicle')
+        chronicle = request.files.get('pdf')
+        date = datetime.strptime(request.form.get('date'), '%Y-%m-%d')
 
         if chronicle is None or chronicle.filename == '':
             flash('No file selected.', 'danger')
@@ -416,10 +417,10 @@ def register_routes(app):
         else:
             db.session.add(Chronicle(
                 filename=secure_filename(chronicle.filename),
-                date=datetime.now(),
+                date=date,
                 pdf=chronicle.read(),
             ))
             db.session.commit()
             flash('New chronicle saved.', 'success')
 
-        return redirect(url_for('admin_chronicles'))
+        return redirect(url_for('chronicles'))

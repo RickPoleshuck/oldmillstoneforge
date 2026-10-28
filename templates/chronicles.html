@@ -2,6 +2,14 @@
 {% block content %}
     <section class="wrap">
         <h1>Old Millstone Forge Chronicles</h1>
+        {%  if is_admin %}
+            <form action="{{ url_for('add_chronicle') }}" method="post" enctype="multipart/form-data">
+                <input type="file" name="pdf" accept="application/pdf" required>
+                <input type="date" name="date" required>
+                <button type="submit">Add chronicle</button>
+            </form>
+
+        {% endif %}
         <table class="chronicles zebra">
             <tr>
                 <th>ID</th>
