@@ -408,7 +408,7 @@ def register_routes(app):
     @admin_required
     def add_chronicle():
         chronicle = request.files.get('pdf')
-        date = datetime.strptime(request.form.get('date'), '%Y-%m-%d')
+        date = datetime.strptime(request.form.get('date'), '%Y-%m')
 
         if chronicle is None or chronicle.filename == '':
             flash('No file selected.', 'danger')

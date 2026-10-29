@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-    <dialog id="add_dialog" style="padding: 1em 1em 1em">
+    <dialog id="add_dialog" style="padding: 1em 1em 1em" closedby="none">
         <form   >
             <h5>Add Chronicle</h5>
             <div>
@@ -8,7 +8,7 @@
             </div>
             <div>
                 Date
-                <input type="date" name="date" required>
+                <input type="month" name="date" required>
             </div>
             <div>
                 <button class="btn btn-primary" type="submit" formmethod="post"
