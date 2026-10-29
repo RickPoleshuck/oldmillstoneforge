@@ -1,15 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
+    <dialog id="add_dialog" style="padding: 1em 1em 1em">
+        <form   >
+            <h5>Add Chronicle</h5>
+            <div>
+                <input type="file" name="pdf" accept="application/pdf" required>
+            </div>
+            <div>
+                Date
+                <input type="date" name="date" required>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="submit" formmethod="post"
+                        formaction="{{ url_for('add_chronicle') }}"
+                        formenctype="multipart/form-data">
+                    Add Chronicle
+                </button>
+                <button class="btn btn-secondary" value="cancel" formnovalidate>Cancel</button>
+            </div>
+        </form>
+    </dialog>
     <section class="wrap">
         <h1>Old Millstone Forge Chronicles</h1>
-        {%  if is_admin %}
-            <form action="{{ url_for('add_chronicle') }}" method="post" enctype="multipart/form-data">
-                <input type="file" name="pdf" accept="application/pdf" required>
-                <input type="date" name="date" required>
-                <button type="submit">Add chronicle</button>
-            </form>
-
+        {% if is_admin %}
+            <button class="btn btn-primary" onclick="document.getElementById('add_dialog').showModal()">Add Chronicle</button>
         {% endif %}
+
         <table class="chronicles zebra">
             <tr>
                 <th>ID</th>
